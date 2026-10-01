@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍑 رویال میوه — پیوستن به دوئل</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+            background: #0b0e1a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        p {
+            color: #889;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-width: 320px;
+        }
+        .join-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #1a1f35;
+            padding: 18px 40px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 30px rgba(247,151,30,0.4);
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .join-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(247,151,30,0.6);
+        }
+        .info {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #667;
+        }
+        .info strong {
+            color: #ffd700;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,215,0,0.2);
+            border-top-color: #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="logo">🍑</div>
+    <h1>رویال میوه</h1>
+    
+    <div id="loadingSection">
+        <div class="spinner"></div>
+        <p>در حال باز کردن اپ...</p>
+    </div>
+    
+    <div id="manualSection" class="hidden">
+        <p>خودکار باز نشد؟ روی دکمه زیر بزن:</p>
+        <a id="joinBtn" class="join-btn" href="#">🔗 پیوستن به دوئل</a>
+    </div>
+    
+    <div class="info">
+        اگه اپ نصب نداری، از <strong>مایکت</strong> نصبش کن
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const ip = params.get('ip');
+        const room = params.get('room');
+        
+        if (ip) {
+            const appLink = 'fruitroyal://duel?ip=' + encodeURIComponent(ip) + 
+                            '&room=' + encodeURIComponent(room || '');
+            
+            document.getElementById('joinBtn').href = appLink;
+            
+            setTimeout(() => {
+                window.location.href = appLink;
+                
+                setTimeout(() => {
+                    document.getElementById('loadingSection').classList.add('hidden');
+                    document.getElementById('manualSection').classList.remove('hidden');
+                }, 2000);
+            }, 500);
+        } else {
+            document.getElementById('loadingSection').innerHTML = 
+                '<p style="color:#ff4757;">❌ لینک نامعتبر</p>';
+        }
+    </script>
+</body>
+</html>
