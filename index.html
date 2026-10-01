@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</title>🥭🍎 رویال میوه — پیوستن به دوئل</title>
+    <title>Fruit Royal — Join Duel</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -18,10 +18,22 @@
             text-align: center;
             padding: 20px;
         }
-        .logo {
+        .logo-container {
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+        .logo-container img {
+            max-width: min(280px, 70vw);
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            filter: drop-shadow(0 0 40px rgba(247,151,30,0.3));
+        }
+        .logo-fallback {
             font-size: 4rem;
             margin-bottom: 20px;
             animation: bounce 1s ease infinite;
+            display: none;
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
@@ -85,24 +97,37 @@
     </style>
 </head>
 <body>
-    <div class="logo">🥭</div>
-    <h1>رویال میوه</h1>
+    <!-- Logo with image -->
+    <div class="logo-container" id="logoContainer">
+        <img src="logo.png" alt="Fruit Royal" onerror="showFallback()">
+    </div>
     
+    <!-- Fallback logo if image fails to load -->
+    <div class="logo-fallback" id="logoFallback">🥭</div>
+
+    <h1>Fruit Royal</h1>
+
     <div id="loadingSection">
         <div class="spinner"></div>
-        <p>در حال باز کردن اپ...</p>
+        <p>Opening the app...</p>
     </div>
     
     <div id="manualSection" class="hidden">
-        <p>خودکار باز نشد؟ روی دکمه زیر بزن:</p>
-        <a id="joinBtn" class="join-btn" href="#">🔗 پیوستن به دوئل</a>
+        <p>Didn't open automatically? Tap the button below:</p>
+        <a id="joinBtn" class="join-btn" href="#">🔗 Join Duel</a>
     </div>
     
     <div class="info">
-        اگه اپ نصب نداری، از <strong>مایکت</strong> نصبش کن
+        Don't have the app? Install it from <strong>Myket</strong>
     </div>
 
     <script>
+        // Show fallback if logo fails to load
+        function showFallback() {
+            document.getElementById('logoContainer').style.display = 'none';
+            document.getElementById('logoFallback').style.display = 'block';
+        }
+
         const params = new URLSearchParams(window.location.search);
         const ip = params.get('ip');
         const room = params.get('room');
@@ -123,7 +148,7 @@
             }, 500);
         } else {
             document.getElementById('loadingSection').innerHTML = 
-                '<p style="color:#ff4757;">❌ لینک نامعتبر</p>';
+                '<p style="color:#ff4757;">❌ Invalid link</p>';
         }
     </script>
 </body>
